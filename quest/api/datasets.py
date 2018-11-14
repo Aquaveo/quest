@@ -379,7 +379,7 @@ def open_dataset(dataset, fmt=None, **kwargs):
     if file_format not in list_plugins('io'):
         raise ValueError('No reader available for: %s' % file_format)
 
-    # Use the quest_xyHdf5, quest_timeseries_hdf5, and quest_raster_gdal intake plugins to open
+    # Use quest_xyHdf5, quest_timeseries_hdf5, and quest_raster_gdal intake plugins to open
     plugin_name = 'open_quest_' + file_format
     module = __import__('intake')
     func = getattr(module, plugin_name)
