@@ -39,6 +39,8 @@ class TsBase(ToolBase):
             'unit': new_df.metadata.get('unit'),
             'datatype': orig_metadata['datatype'],
             'file_format': orig_metadata['file_format'],
+            'intake_plugin': orig_metadata['intake_plugin'],
+            'intake_args': orig_metadata['intake_args'],
         }
 
         new_dset, file_path, catalog_entry = self._create_new_dataset(

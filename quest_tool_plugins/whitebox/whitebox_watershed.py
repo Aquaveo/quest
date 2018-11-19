@@ -43,6 +43,8 @@ class WBTFillDepressions(ToolBase):
             'parameter': 'streams',
             'datatype': orig_metadata['datatype'],
             'file_format': orig_metadata['file_format'],
+            'intake_plugin': orig_metadata['intake_plugin'],
+            'intake_args': orig_metadata['intake_args'],
         }
 
         update_metadata(new_dset, quest_metadata=quest_metadata)
@@ -112,6 +114,8 @@ class WBTExtractStreamsWorkflow(ToolBase):
                 'parameter': 'streams',
                 'datatype': orig_metadata['datatype'],
                 'file_format': orig_metadata['file_format'],
+                'intake_plugin': orig_metadata['intake_plugin'],
+                'intake_args': orig_metadata['intake_args'],
             }
         )
 
@@ -192,6 +196,8 @@ class WBTWatershedDelineationWorkflow(ToolBase):
                 'parameter': 'watershed_boundary',
                 'datatype': orig_metadata['datatype'],
                 'file_format': orig_metadata['file_format'],
+                'intake_plugin': orig_metadata['intake_plugin'],
+                'intake_args': orig_metadata['intake_args'],
             }
         )
 
@@ -237,6 +243,8 @@ class WBTWatershedDelineationWorkflow(ToolBase):
             'parameter': 'streams',
             'datatype': orig_metadata['datatype'],
             'file_format': orig_metadata['file_format'],
+            'intake_plugin': orig_metadata['intake_plugin'],
+            'intake_args': orig_metadata['intake_args'],
             'file_path': file_path,
         }
 

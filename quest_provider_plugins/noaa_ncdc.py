@@ -3,6 +3,7 @@ from ulmo.ncdc import ghcn_daily, gsod
 import pandas as pd
 import param
 import os
+import json
 
 # from ulmo.ncdc.ghcn_daily.core import _get_inventory as _get_ghcn_inventory
 
@@ -24,7 +25,7 @@ class NcdcServiceBase(TimePeriodServiceBase):
             'geographical_areas': self.geographical_areas,
             'bounding_boxes': self.bounding_boxes
         }
-    
+
     @property
     def parameters(self):
         return {
@@ -92,6 +93,8 @@ class NcdcServiceBase(TimePeriodServiceBase):
         metadata = {
             'file_path': file_path,
             'file_format': 'timeseries-hdf5',
+            'intake_plugin': 'quest_timeseries_hdf5',
+            'intake_args': json.dumps([file_path]),
             'datatype': 'timeseries',
             'parameter': self.parameter,
             'unit': self._unit_map[self.parameter],

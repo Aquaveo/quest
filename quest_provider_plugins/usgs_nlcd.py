@@ -2,6 +2,7 @@
 
 import pandas as pd
 import requests
+import json
 from quest.plugins import ProviderBase, SingleFileServiceBase
 from quest import util
 
@@ -41,6 +42,8 @@ class UsgsNlcdServiceBase(SingleFileServiceBase):
             lambda x: {'download_url': x['download_url'],
                        'filename': x['filename'],
                        'file_format': 'raster-gdal',
+                       'intake_plugin': 'rasterio',
+                       'intake_args': json.dumps([x['filename'], {}]),
                        'extract_from_zip': '.tif',
                        }, axis=1)
 

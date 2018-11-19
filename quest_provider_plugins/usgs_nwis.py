@@ -8,6 +8,7 @@ import os
 from ulmo.usgs import nwis
 from quest import util
 import param
+import json
 
 BASE_PATH = 'usgs-nwis'
 
@@ -68,6 +69,8 @@ class NwisServiceBase(TimePeriodServiceBase):
             'name': dataset,
             'metadata': data,
             'file_path': file_path,
+            'intake_args': json.dumps([file_path]),
+            'intake_plugin': 'quest_timeseries_hdf5',
             'file_format': 'timeseries-hdf5',
             'datatype': 'timeseries',
             'parameter': parameter,

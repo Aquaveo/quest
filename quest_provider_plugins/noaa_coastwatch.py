@@ -5,6 +5,7 @@ import pandas as pd
 import param
 from urllib.parse import quote, urlencode
 from urllib.error import HTTPError
+import json
 
 from quest.plugins import ProviderBase, TimePeriodServiceBase, load_plugins
 from quest.util.log import logger
@@ -38,7 +39,7 @@ class NoaaServiceBase(TimePeriodServiceBase):
     def search_catalog(self, **kwargs):
         raise NotImplementedError()
         # TODO drop duplicates?
-    
+
     @property
     def catalog_id(self):
         return self._catalog_id
@@ -90,6 +91,8 @@ class NoaaServiceBase(TimePeriodServiceBase):
             metadata = {
                 'file_path': file_path,
                 'file_format': 'timeseries-hdf5',
+                'intake_plugin':  'quest_timeseries_hdf5',
+                'intake_args': json.dumps([file_path]),
                 'datatype': 'timeseries',
                 'parameter': p.parameter,
                 'unit': units[self.parameter_code],

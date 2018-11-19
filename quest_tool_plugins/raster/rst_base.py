@@ -43,6 +43,8 @@ class RstBase(ToolBase):
             'parameter': orig_metadata['parameter'],
             'datatype': orig_metadata['datatype'],
             'file_format': orig_metadata['file_format'],
+            'intake_plugin': orig_metadata['intake_plugin'],
+            'intake_args': orig_metadata['intake_args'],
             'unit': orig_metadata['unit']
         }
 

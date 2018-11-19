@@ -48,6 +48,8 @@ class TsFlowDuration(ToolBase):
             'options': self.set_options,
             'file_format': orig_metadata['file_format'],
             'unit': new_df.metadata.get('unit'),
+            'intake_plugin': orig_metadata['intake_plugin'],
+            'intake_args': orig_metadata['intake_args'],
         }
 
         new_dset, file_path, catalog_entry = self._create_new_dataset(

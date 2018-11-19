@@ -2,6 +2,7 @@ from quest.plugins import ProviderBase, SingleFileServiceBase
 from quest import util
 from ulmo.usgs import ned
 import os
+import json
 
 DEFAULT_FILE_PATH = os.path.join('usgs','ned')
 CACHE_FILE = 'ned_%s_metadata.json'
@@ -32,6 +33,8 @@ class UsgsNedServiceBase(SingleFileServiceBase):
             lambda x: {'download_url': x['download url'],
                        'filename': x['filename'],
                        'file_format': 'raster-gdal',
+                       'intake_plugin': 'rasterio',
+                       'intake_args': json.dumps([x['filename'], {}]),
                        'extract_from_zip': '.img',
                        }, axis=1)
 
