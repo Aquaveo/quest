@@ -1,14 +1,16 @@
-"""QUEST wrapper for USGS NWIS Services."""
-
-from quest.plugins import ProviderBase, TimePeriodServiceBase, load_plugins
-import concurrent.futures
-from functools import partial
-import pandas as pd
 import os
-from ulmo.usgs import nwis
-from quest import util
+
 import param
+import pandas as pd
+import concurrent.futures
+from ulmo.usgs import nwis
+from functools import partial
+
+from quest import util
+from quest.static import ServiceType, GeomType, DataType
 import json
+from quest.plugins import ProviderBase, TimePeriodServiceBase, load_plugins
+
 
 BASE_PATH = 'usgs-nwis'
 
@@ -72,7 +74,7 @@ class NwisServiceBase(TimePeriodServiceBase):
             'intake_plugin': 'quest_timeseries_hdf5',
             'intake_args': json.dumps([file_path]),
             'file_format': 'timeseries-hdf5',
-            'datatype': 'timeseries',
+            'datatype': DataType.TIMESERIES,
             'parameter': parameter,
             'unit': data['variable']['units']['code'],
             'service_id': 'svc://usgs-nwis:{}/{}'.format(self.service_name, catalog_id)
@@ -108,7 +110,7 @@ class NwisServiceBase(TimePeriodServiceBase):
 
         chunks = list(_chunks(df.index.tolist()))
         func = partial(_site_info, service=self.service_name)
-        with concurrent.futures.ProcessPoolExecutor() as executor:
+        with concurrent.futures.ProcessPoolExecutor(max_workers=None) as executor:
             data = executor.map(func, chunks)
 
         data = pd.concat(data, ignore_index=True)
@@ -148,10 +150,10 @@ class NwisServiceIV(NwisServiceBase):
     service_name = 'iv'
     display_name = 'NWIS Instantaneous Values Service'
     description = 'Retrieve current streamflow and other real-time data for USGS water sites since October 1, 2007'
-    service_type = 'geo-discrete'
+    service_type = ServiceType.GEO_DISCRETE
     unmapped_parameters_available = True
-    geom_type = 'Point'
-    datatype = 'timeseries'
+    geom_type = GeomType.POINT
+    datatype = DataType.TIMESERIES
     geographical_areas = ['Alaska', 'USA', 'Hawaii']
     bounding_boxes = [
         (-178.19453125, 51.6036621094, -130.0140625, 71.4076660156),
@@ -171,10 +173,10 @@ class NwisServiceDV(NwisServiceBase):
     display_name = 'NWIS Daily Values Service'
     description = 'Retrieve historical summarized daily data about streams, lakes and wells. Daily data available ' \
                   'for USGS water sites include mean, median, maximum, minimum, and/or other derived values.'
-    service_type = 'geo-discrete'
+    service_type = ServiceType.GEO_DISCRETE
     unmapped_parameters_available = True
-    geom_type = 'Point'
-    datatype = 'timeseries'
+    geom_type = GeomType.POINT
+    datatype = DataType.TIMESERIES
     geographical_areas = ['Alaska', 'USA', 'Hawaii']
     bounding_boxes = [
         (-178.19453125, 51.6036621094, -130.0140625, 71.4076660156),

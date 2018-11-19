@@ -1,9 +1,10 @@
-import numpy as np
 import param
 import json
+import numpy as np
 
-from quest.plugins import ToolBase
 from quest import util
+from quest.plugins import ToolBase
+from quest.static import DataType, UriType, GeomType
 from quest.api import get_metadata, update_metadata, open_dataset
 
 from .whitebox_utils import wbt, points_to_shp, raster_to_polygons
@@ -14,17 +15,17 @@ class WBTFillDepressions(ToolBase):
 
     # metadata attributes
     group = 'raster'
-    operates_on_datatype = ['raster']
+    operates_on_datatype = [DataType.RASTER]
     operates_on_geotype = None
     operates_on_parameters = None
-    produces_datatype = ['raster']
+    produces_datatype = [DataType.RASTER]
     produces_geotype = None
     produces_parameters = None
 
     dataset = util.param.DatasetSelector(
         default=None,
         doc="""Dataset to run tool on.""",
-        filters={'datatype': 'raster'},
+        filters={'datatype': DataType.RASTER},
     )
 
     def _run_tool(self):
@@ -60,17 +61,17 @@ class WBTExtractStreamsWorkflow(ToolBase):
 
     # metadata attributes
     group = 'raster'
-    operates_on_datatype = ['raster']
+    operates_on_datatype = [DataType.RASTER]
     operates_on_geotype = None
     operates_on_parameters = None
-    produces_datatype = ['raster']
+    produces_datatype = [DataType.RASTER]
     produces_geotype = None
     produces_parameters = None
 
     dataset = util.param.DatasetSelector(
         default=None,
         doc="""Dataset to run tool on.""",
-        filters={'datatype': 'raster'},
+        filters={'datatype': DataType.RASTER},
     )
 
     stream_threshold = param.Number(
@@ -138,29 +139,29 @@ class WBTWatershedDelineationWorkflow(ToolBase):
 
     # metadata attributes
     group = 'raster'
-    operates_on_datatype = ['raster']
+    operates_on_datatype = [DataType.RASTER]
     operates_on_geotype = None
     operates_on_parameters = None
-    produces_datatype = ['raster']
+    produces_datatype = [DataType.RASTER]
     produces_geotype = None
     produces_parameters = None
 
     elevation_dataset = util.param.DatasetSelector(
         default=None,
         doc="""Dataset to run tool on.""",
-        filters={'datatype': 'raster'},
+        filters={'datatype': DataType.RASTER},
     )
 
     streams_dataset = util.param.DatasetSelector(
         default=None,
         doc="""Dataset to run tool on.""",
-        filters={'datatype': 'raster'},
+        filters={'datatype': DataType.RASTER},
     )
 
     outlets = util.param.CatalogEntrySelector(
         default=None,
         doc="""Point geometry to use for the outlet.""",
-        filters={'geom_type': 'point'},
+        filters={'geom_type': GeomType.POINT},
     )
 
     snap_distance = param.Number(

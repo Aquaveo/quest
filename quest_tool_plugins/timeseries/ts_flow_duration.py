@@ -1,10 +1,11 @@
 import json
+from quest import util
 
 from quest.plugins import ToolBase
 from quest.api import get_metadata, update_metadata
-from quest import util
-from quest.util import setattr_on_dataframe
+from quest.static import DataType, UriType
 from quest.plugins import load_plugins
+from quest.util import setattr_on_dataframe
 
 
 class TsFlowDuration(ToolBase):
@@ -13,7 +14,7 @@ class TsFlowDuration(ToolBase):
 
     dataset = util.param.DatasetSelector(default=None,
                                          doc="""Dataset to apply filter to.""",
-                                         filters={'datatype': 'timeseries'},
+                                         filters={'datatype': DataType.TIMESERIES},
                                          )
 
     def _run_tool(self):
