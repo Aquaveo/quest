@@ -18,6 +18,13 @@ class UsgsNlcdServiceBase(SingleFileServiceBase):
         'landcover': 'landcover'
     }
 
+    def download(self, catalog_id, file_path, dataset, **kwargs):
+        # Call the base to download, but then update the dictionary with intake info
+        temp = super().download(catalog_id, file_path, dataset, **kwargs)
+        temp.update({'intake_plugin': 'rasterio', 'intake_args': json.dumps([file_path, {}])})
+        return temp
+
+
     def search_catalog(self, **kwargs):
         base_url = 'https://www.sciencebase.gov/catalog/items'
         params = [
@@ -42,8 +49,6 @@ class UsgsNlcdServiceBase(SingleFileServiceBase):
             lambda x: {'download_url': x['download_url'],
                        'filename': x['filename'],
                        'file_format': 'raster-gdal',
-                       'intake_plugin': 'rasterio',
-                       'intake_args': json.dumps([x['filename'], {}]),
                        'extract_from_zip': '.tif',
                        }, axis=1)
 

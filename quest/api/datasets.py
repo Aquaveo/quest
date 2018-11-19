@@ -376,10 +376,11 @@ def open_dataset(dataset, fmt=None, **kwargs):
     intake_plugin = m.get('intake_plugin')
     required = []
     args = m.get('intake_args')
-    if args is not None:
-        print('DEBUG:  raw args in open_dataset() = {}'.format(args))
+    if len(args.strip()):
+        # Get args from json if available
         required = json.loads(m.get('intake_args'))
-        print('DEBUG:  raw args, after json.loads in open_dataset() = {}'.format(required))
+    else:
+        raise ValueError('No intake plugin found')
 
     if path is None:
         raise ValueError('No dataset file found')
@@ -391,22 +392,11 @@ def open_dataset(dataset, fmt=None, **kwargs):
     if intake_plugin:
         # New code, with 'intake_plugin' added to the local .db
         plugin_name = 'open_' + intake_plugin
-        print('Opening with dynamic intake using plugin %s' % plugin_name)
-    else:
-        # Old code, hard coded
-        plugin_name = 'open_quest_' + file_format.replace('-', '_')
-        print('Opening with static intake using plugin %s' % plugin_name)
-    module = __import__('intake')
-    func = getattr(module, plugin_name)
-    if intake_plugin:
-        # New code, with 'intake_plugin' added to the local .db
-        print('Calling function with required args %s' % required)
+
+        module = __import__('intake')
+        func = getattr(module, plugin_name)
         source = func(*required, **kwargs)
-    else:
-        # Old code, hard coded
-        print('Calling old function with path %s' % path)
-        source = func(path, fmt=fmt, **kwargs)
-    return source.read()
+        return source.read()
 
 
 @add_async

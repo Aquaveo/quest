@@ -1,5 +1,6 @@
 import numpy as np
 import param
+import json
 
 from quest.plugins import ToolBase
 from quest import util
@@ -44,7 +45,7 @@ class WBTFillDepressions(ToolBase):
             'datatype': orig_metadata['datatype'],
             'file_format': orig_metadata['file_format'],
             'intake_plugin': orig_metadata['intake_plugin'],
-            'intake_args': orig_metadata['intake_args'],
+            'intake_args': json.dumps([file_path, {}]),
         }
 
         update_metadata(new_dset, quest_metadata=quest_metadata)
@@ -109,15 +110,17 @@ class WBTExtractStreamsWorkflow(ToolBase):
 
         new_dset, file_path, catalog_entry = self._create_new_dataset(
             old_dataset=dataset,
-            ext='.tif',
-            dataset_metadata={
-                'parameter': 'streams',
-                'datatype': orig_metadata['datatype'],
-                'file_format': orig_metadata['file_format'],
-                'intake_plugin': orig_metadata['intake_plugin'],
-                'intake_args': orig_metadata['intake_args'],
-            }
+            ext='.tif'
         )
+
+        quest_metadata = {
+            'parameter': 'streams',
+            'datatype': orig_metadata['datatype'],
+            'file_format': orig_metadata['file_format'],
+            'intake_plugin': orig_metadata['intake_plugin'],
+            'intake_args': json.dumps([file_path, {}]),
+        }
+        update_metadata(new_dset, quest_metadata=quest_metadata)
 
         fa = self.flow_accumulation if self.flow_accumulation is not None else wbt.d_inf_flow_accumulation(elev_file)
         # fa = wbt.d8_flow_accumulation(fill)
@@ -192,14 +195,17 @@ class WBTWatershedDelineationWorkflow(ToolBase):
         new_dset, file_path, catalog_entry = self._create_new_dataset(
             old_dataset=dataset,
             ext='.tif',
-            dataset_metadata={
-                'parameter': 'watershed_boundary',
-                'datatype': orig_metadata['datatype'],
-                'file_format': orig_metadata['file_format'],
-                'intake_plugin': orig_metadata['intake_plugin'],
-                'intake_args': orig_metadata['intake_args'],
-            }
         )
+
+        quest_metadata = {
+            'parameter': 'watershed_boundary',
+            'datatype': orig_metadata['datatype'],
+            'file_format': orig_metadata['file_format'],
+            'intake_plugin': orig_metadata['intake_plugin'],
+            'intake_args': json.dumps([file_path, {}]),
+        }
+
+        update_metadata(new_dset, quest_metadata=quest_metadata)
 
         d8 = wbt.d8_pointer(elev_file)
         point_shp = points_to_shp(original_outlets)
@@ -244,7 +250,7 @@ class WBTWatershedDelineationWorkflow(ToolBase):
             'datatype': orig_metadata['datatype'],
             'file_format': orig_metadata['file_format'],
             'intake_plugin': orig_metadata['intake_plugin'],
-            'intake_args': orig_metadata['intake_args'],
+            'intake_args': json.dumps([file_path, {}]),
             'file_path': file_path,
         }
 

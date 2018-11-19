@@ -1,5 +1,7 @@
+import json
+
 from quest.plugins import ToolBase
-from quest.api import get_metadata
+from quest.api import get_metadata, update_metadata
 from quest import util
 from quest.util import setattr_on_dataframe
 from quest.plugins import load_plugins
@@ -42,6 +44,12 @@ class TsFlowDuration(ToolBase):
         setattr_on_dataframe(df, 'metadata', metadata)
         new_df = df
         # setup new dataset
+
+        new_dset, file_path, catalog_entry = self._create_new_dataset(
+            old_dataset=dataset,
+            ext='.h5',
+        )
+
         new_metadata = {
             'parameter': new_df.metadata.get('parameter'),
             'datatype': orig_metadata['datatype'],
@@ -49,14 +57,9 @@ class TsFlowDuration(ToolBase):
             'file_format': orig_metadata['file_format'],
             'unit': new_df.metadata.get('unit'),
             'intake_plugin': orig_metadata['intake_plugin'],
-            'intake_args': orig_metadata['intake_args'],
+            'intake_args': json.dumps([file_path]),
         }
-
-        new_dset, file_path, catalog_entry = self._create_new_dataset(
-            old_dataset=dataset,
-            ext='.h5',
-            dataset_metadata=new_metadata,
-        )
+        update_metadata(new_dset, quest_metadata=new_metadata)
 
         # save dataframe
         output = load_plugins('io', 'xy-hdf5')['xy-hdf5']
