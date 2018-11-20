@@ -20,9 +20,9 @@ class UsgsNlcdServiceBase(SingleFileServiceBase):
 
     def download(self, catalog_id, file_path, dataset, **kwargs):
         # Call the base to download, but then update the dictionary with intake info
-        temp = super().download(catalog_id, file_path, dataset, **kwargs)
-        temp.update({'intake_plugin': 'rasterio', 'intake_args': json.dumps([file_path, {}])})
-        return temp
+        metadata = super().download(catalog_id, file_path, dataset, **kwargs)
+        metadata.update({'intake_plugin': 'rasterio', 'intake_args': json.dumps([file_path, {}])})
+        return metadata
 
     def search_catalog(self, **kwargs):
         base_url = 'https://www.sciencebase.gov/catalog/items'
