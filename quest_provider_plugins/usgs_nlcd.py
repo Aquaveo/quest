@@ -24,7 +24,6 @@ class UsgsNlcdServiceBase(SingleFileServiceBase):
         temp.update({'intake_plugin': 'rasterio', 'intake_args': json.dumps([file_path, {}])})
         return temp
 
-
     def search_catalog(self, **kwargs):
         base_url = 'https://www.sciencebase.gov/catalog/items'
         params = [
