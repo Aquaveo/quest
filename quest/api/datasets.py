@@ -390,7 +390,7 @@ def open_dataset(dataset, fmt=None, **kwargs):
     if file_format not in list_plugins(static.PluginType.IO):
         raise ValueError('No reader available for: %s' % file_format)
 
-    io = load_plugins(static.PluginType.IO, file_format)[file_format]
+    # Use intake plugin to open
     if intake_plugin:
         # New code, with 'intake_plugin' added to the local .db
         plugin_name = 'open_' + intake_plugin
