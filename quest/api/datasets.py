@@ -400,7 +400,6 @@ def open_dataset(dataset, fmt=None, **kwargs):
         source = func(*required, **kwargs)
         return source.read()
 
-
 @add_async
 def visualize_dataset(dataset, update_cache=False, **kwargs):
     """Visualize the dataset as a matplotlib/bokeh plot.

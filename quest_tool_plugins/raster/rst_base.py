@@ -2,8 +2,8 @@ import json
 import rasterio
 
 from quest import util
-from quest.api import get_metadata, update_metadata
 from quest.plugins import ToolBase
+from quest.api import get_metadata, update_metadata
 from quest.static import DataType, UriType
 
 

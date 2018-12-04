@@ -8,6 +8,13 @@ from quest.static import ServiceType, DataType, GeomType
 from quest.plugins import ProviderBase, SingleFileServiceBase
 
 
+from ulmo.usgs import ned
+
+from quest import util
+from quest.static import ServiceType, DataType, GeomType
+from quest.plugins import ProviderBase, SingleFileServiceBase
+
+
 DEFAULT_FILE_PATH = os.path.join('usgs','ned')
 CACHE_FILE = 'ned_%s_metadata.json'
 

@@ -8,7 +8,6 @@ from ulmo.ncdc import ghcn_daily, gsod
 from quest.static import ServiceType, GeomType, DataType
 from quest.plugins import ProviderBase, TimePeriodServiceBase, load_plugins
 
-
 BASE_PATH = 'ncdc'
 
 
